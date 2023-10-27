@@ -2,18 +2,16 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMenu } from '../api';
-import { ActivityIndicator, Banner } from 'react-native-paper';
-import { useRouter } from 'expo-router';
+import { Redirect } from 'expo-router';
 
 export default function Menu() {
-  const { push } = useRouter();
   const { data, error } = useQuery({
     queryKey: ['menu_list'],
     queryFn: fetchMenu,
   });
 
   if (error) {
-    push('/error');
+    return <Redirect href='/error' />;
   }
 
   if (data) {
