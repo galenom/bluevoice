@@ -1,8 +1,22 @@
 from django.contrib.auth.models import User
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, mixins
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .models import Food, Order
 from .serializer import FoodSerializer, OrderSerializer, UserSerializer
 
+class MenuList(generics.ListAPIView):
+   queryset = Food.objects.all()
+   serializer_class = FoodSerializer
+
+class OrdersList(generics.ListAPIView):
+   queryset = Order.objects.all()
+   serializer_class = OrderSerializer
+
+class OrderCreate(generics.CreateAPIView):
+   queryset = Order.objects.all()
+   serializer_class = OrderSerializer
+   
 # Create your views here.
 class FoodView(viewsets.ModelViewSet):
   queryset = Food.objects.all()

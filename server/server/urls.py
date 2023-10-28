@@ -33,4 +33,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>/', views.UserDetail.as_view()),
+    path('api/menu/', views.MenuList.as_view()),
+    path('api/orders/', views.OrdersList.as_view()),
+    path('api/order/', views.OrderCreate.as_view()),
 ]
