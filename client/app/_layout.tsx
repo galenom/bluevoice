@@ -8,6 +8,7 @@ import { Slot } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { View } from 'react-native';
 import { GlobalContext } from '../context/Globals';
+import { CartContext } from '../context/Cart';
 import { Navbar } from '../components/navbar';
 
 const queryClient = new QueryClient();
@@ -15,19 +16,27 @@ const queryClient = new QueryClient();
 export default function Layout() {
   const error = useState<Error | null>(null);
 
+  // Menu
   const [menuVisible, setMenuVisible] = useState(false);
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
   const menu = { visible: menuVisible, open: openMenu, close: closeMenu };
 
+  // Cart
+  const [cart, setCartItems] = useState<Array<any>>([]);
+  const [total, setTotal] = useState(0);
+  const addToCart = (item: any) => setCartItems([...cart, item]);
+
   return (
     <GlobalContext.Provider value={{ error, menu }}>
-      <QueryClientProvider client={queryClient}>
-        <PaperProvider theme={DefaultTheme}>
-          <Navbar />
-          <Pages />
-        </PaperProvider>
-      </QueryClientProvider>
+      <CartContext.Provider value={{ cart, total, addToCart, setTotal }}>
+        <QueryClientProvider client={queryClient}>
+          <PaperProvider theme={DefaultTheme}>
+            <Navbar />
+            <Pages />
+          </PaperProvider>
+        </QueryClientProvider>
+      </CartContext.Provider>
     </GlobalContext.Provider>
   );
 }
