@@ -4,7 +4,7 @@ from django.db import models
 class Food(models.Model):
   dish = models.CharField(max_length=50)
   description = models.CharField(max_length=300)
-  price = models.IntegerField()
+  price = models.FloatField()
   created_by = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
   def __str__(self):
