@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const signIn = () => {
     router.replace('/menu');
@@ -20,8 +21,8 @@ export default function Login() {
       />
       <TextInput
         label='Password'
-        value={email}
-        onChangeText={setEmail}
+        value={password}
+        onChangeText={setPassword}
         style={styles.spacing}
         secureTextEntry
       />
