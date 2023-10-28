@@ -9,8 +9,7 @@ import { Avatar, Card, Text, Button } from 'react-native-paper';
 const DUMMY_IMG = 'https://picsum.photos/700';
 const LeftContent = (props: any) => <Avatar.Icon {...props} icon='food' />;
 
-const MenuItem = ({ item }: any) => {
-  const { dish, description, price } = item;
+const MenuItem = ({ dish, description, price, style }: any) => {
   const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -18,7 +17,7 @@ const MenuItem = ({ item }: any) => {
   });
 
   return (
-    <Card>
+    <Card style={style}>
       <Card.Title
         title={dish}
         subtitle={currencyFormatter.format(price)}
@@ -49,7 +48,33 @@ export default function Menu() {
   if (data) {
     return (
       <SafeAreaView>
-        <FlatList data={data} renderItem={MenuItem} style={styles.flatList} />
+        <FlatList
+          data={data}
+          renderItem={({ item, index }) => {
+            return (
+              <MenuItem
+                {...item}
+                style={[
+                  {
+                    flexGrow: 1,
+                    width: '50%',
+                    position: 'relative',
+                  },
+                  index % 2 === 0
+                    ? {
+                        paddingRight: 10,
+                      }
+                    : {
+                        paddingLeft: 10,
+                      },
+                ]}
+              />
+            );
+          }}
+          style={styles.flatList}
+          numColumns={2}
+          ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+        />
       </SafeAreaView>
     );
   }
