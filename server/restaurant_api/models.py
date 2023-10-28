@@ -12,7 +12,7 @@ class Food(models.Model):
 
 class Order(models.Model):
   cart = models.ManyToManyField(Food)
-  created_by = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+  created_by = models.ForeignKey('auth.User', on_delete=models.CASCADE, default=1, blank=True)
 
   def __str__(self) -> str:
     return self.items.__sizeof__
