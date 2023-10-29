@@ -6,17 +6,12 @@ import { Redirect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Avatar, Card, Text, Button } from 'react-native-paper';
 import { useAuthContext } from '../context/Auth';
+import { currencyFormatter } from '../utils/currency';
 
 const DUMMY_IMG = 'https://picsum.photos/700';
 const LeftContent = (props: any) => <Avatar.Icon {...props} icon='food' />;
 
 const MenuItem = ({ dish, description, price, style }: any) => {
-  const currencyFormatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
-
   return (
     <Card style={style}>
       <Card.Title
