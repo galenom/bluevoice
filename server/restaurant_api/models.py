@@ -13,6 +13,7 @@ class Food(models.Model):
 class Order(models.Model):
   cart = models.ManyToManyField(Food)
   created_by = models.ForeignKey('auth.User', on_delete=models.CASCADE, default=1, blank=True)
+  created_on = models.DateTimeField(auto_now=True)
 
   def __str__(self) -> str:
     return self.items.__sizeof__
