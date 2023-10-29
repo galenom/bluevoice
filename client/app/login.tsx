@@ -2,13 +2,21 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { router } from 'expo-router';
+import { signIn } from '../api';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
 
-  const signIn = () => {
-    router.replace('/menu');
+  const login = async () => {
+    setError(false);
+    try {
+      const data = await signIn(email, password);
+      router.replace('/menu');
+    } catch (e) {
+      setError(true);
+    }
   };
 
   return (
@@ -18,6 +26,7 @@ export default function Login() {
         value={email}
         onChangeText={setEmail}
         style={styles.spacing}
+        error={error}
       />
       <TextInput
         label='Password'
@@ -25,8 +34,9 @@ export default function Login() {
         onChangeText={setPassword}
         style={styles.spacing}
         secureTextEntry
+        error={error}
       />
-      <Button mode='contained' onPress={signIn} style={styles.spacing}>
+      <Button mode='contained' onPress={login} style={styles.spacing}>
         Log in
       </Button>
     </View>
