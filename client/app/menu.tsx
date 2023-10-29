@@ -5,6 +5,7 @@ import { fetchMenu } from '../api';
 import { Redirect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Avatar, Card, Text, Button } from 'react-native-paper';
+import { useAuthContext } from '../context/Auth';
 
 const DUMMY_IMG = 'https://picsum.photos/700';
 const LeftContent = (props: any) => <Avatar.Icon {...props} icon='food' />;
@@ -36,9 +37,10 @@ const MenuItem = ({ dish, description, price, style }: any) => {
 };
 
 export default function Menu() {
+  const { accessToken } = useAuthContext();
   const { data, error } = useQuery({
     queryKey: ['menu_list'],
-    queryFn: fetchMenu,
+    queryFn: () => fetchMenu(accessToken),
   });
 
   if (error) {

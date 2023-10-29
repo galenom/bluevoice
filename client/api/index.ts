@@ -1,7 +1,11 @@
 import axios from 'axios';
 
-export const fetchMenu = async () => {
-  const { data } = await axios('http://127.0.0.1:8000/api/food/');
+export const fetchMenu = async (accessToken: string | null) => {
+  const { data } = await axios.get('http://127.0.0.1:8000/api/menu/', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return data;
 };
 

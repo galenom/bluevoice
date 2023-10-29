@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { router } from 'expo-router';
@@ -10,18 +10,23 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
 
-  const { setAccessToken } = useAuthContext();
+  const { setAccessToken, accessToken } = useAuthContext();
 
   const login = async () => {
     setError(false);
     try {
       const data = await signIn(email, password);
-      setAccessToken(data.accessToken);
-      router.replace('/menu');
+      setAccessToken(data.access);
     } catch (e) {
       setError(true);
     }
   };
+
+  useEffect(() => {
+    if (accessToken) {
+      router.replace('/menu');
+    }
+  }, [accessToken]);
 
   return (
     <View style={styles.fillAndCenter}>
