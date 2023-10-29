@@ -3,16 +3,20 @@ import { View, StyleSheet } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { router } from 'expo-router';
 import { signIn } from '../api';
+import { useAuthContext } from '../context/Auth';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
 
+  const { setAccessToken } = useAuthContext();
+
   const login = async () => {
     setError(false);
     try {
       const data = await signIn(email, password);
+      setAccessToken(data.accessToken);
       router.replace('/menu');
     } catch (e) {
       setError(true);
