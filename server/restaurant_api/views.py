@@ -8,14 +8,17 @@ from .serializer import FoodSerializer, OrderSerializer, UserSerializer
 class MenuList(generics.ListAPIView):
    queryset = Food.objects.all()
    serializer_class = FoodSerializer
+   permission_classes = [IsAuthenticated]
 
 class OrdersList(generics.ListAPIView):
    queryset = Order.objects.all()
    serializer_class = OrderSerializer
+   permission_classes = [IsAuthenticated]
 
 class OrderCreate(generics.CreateAPIView):
    queryset = Order.objects.all()
    serializer_class = OrderSerializer
+   permission_classes = [IsAuthenticated]
    
 # Create your views here.
 class FoodView(viewsets.ModelViewSet):

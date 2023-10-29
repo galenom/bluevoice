@@ -19,6 +19,10 @@ from django.contrib import admin
 from django.urls import path, include
 from restaurant_api import views
 from rest_framework import routers
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 #router take care of generating automatically all urls for our model
 router = routers.DefaultRouter()
@@ -36,4 +40,5 @@ urlpatterns = [
     path('api/menu/', views.MenuList.as_view()),
     path('api/orders/', views.OrdersList.as_view()),
     path('api/order/', views.OrderCreate.as_view()),
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 ]
