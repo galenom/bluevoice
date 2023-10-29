@@ -4,7 +4,7 @@ import {
   MD3LightTheme as DefaultTheme,
   ActivityIndicator,
 } from 'react-native-paper';
-import { Slot } from 'expo-router';
+import { Slot, usePathname } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { View } from 'react-native';
 import { GlobalContext } from '../context/Globals';
@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const queryClient = new QueryClient();
 
 export default function Layout() {
+  const pathname = usePathname();
   const error = useState<Error | null>(null);
 
   // Menu
@@ -50,7 +51,7 @@ export default function Layout() {
   }, []);
 
   // Bad practice to do this just for timesake
-  if (!accessToken && !window.location.href.includes('login')) {
+  if (!accessToken && !pathname.includes('login')) {
     return null;
   }
 
