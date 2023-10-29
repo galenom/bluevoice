@@ -1,13 +1,15 @@
 import { createContext, useContext } from 'react';
 
 export type AuthContext = {
-  accessToken: string | null;
+  getAccessToken: () => string | null;
   setAccessToken: (accessToken: string) => void;
+  clearAccessToken: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContext>({
-  accessToken: null,
+  getAccessToken: () => null,
   setAccessToken: () => {},
+  clearAccessToken: Promise.resolve,
 });
 
 export const useAuthContext = () => useContext(AuthContext);

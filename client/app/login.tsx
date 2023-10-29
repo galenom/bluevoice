@@ -10,7 +10,8 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
 
-  const { setAccessToken, accessToken } = useAuthContext();
+  const { setAccessToken, getAccessToken } = useAuthContext();
+  const accessToken = getAccessToken();
 
   const login = async () => {
     setError(false);

@@ -32,10 +32,10 @@ const MenuItem = ({ dish, description, price, style }: any) => {
 };
 
 export default function Menu() {
-  const { accessToken } = useAuthContext();
+  const { getAccessToken } = useAuthContext();
   const { data, error } = useQuery({
     queryKey: ['menu_list'],
-    queryFn: () => fetchMenu(accessToken),
+    queryFn: () => fetchMenu(getAccessToken()),
   });
 
   if (error) {

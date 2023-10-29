@@ -2,12 +2,16 @@ import React from 'react';
 import { Divider, IconButton, Menu as RNPMenu } from 'react-native-paper';
 import { useGlobalContext } from '../context/Globals';
 import { useRouter } from 'expo-router';
+import { useAuthContext } from '../context/Auth';
 
 export const Menu = () => {
   const { replace, push } = useRouter();
   const {
     menu: { visible, open, close },
   } = useGlobalContext();
+
+  const { clearAccessToken } = useAuthContext();
+
   return (
     <RNPMenu
       visible={visible}
@@ -18,7 +22,13 @@ export const Menu = () => {
       <RNPMenu.Item onPress={() => push('/orders')} title='Orders' />
       <RNPMenu.Item onPress={() => push('/cart')} title='Cart' />
       <Divider />
-      <RNPMenu.Item onPress={() => replace('/login')} title='Logout' />
+      <RNPMenu.Item
+        onPress={async () => {
+          await clearAccessToken();
+          replace('/login');
+        }}
+        title='Logout'
+      />
     </RNPMenu>
   );
 };

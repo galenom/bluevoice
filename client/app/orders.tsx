@@ -7,10 +7,11 @@ import { useAuthContext } from '../context/Auth';
 import DataTable from '../components/datatable';
 
 export default function Orders() {
-  const { accessToken } = useAuthContext();
+  const { getAccessToken } = useAuthContext();
+
   const { data, error } = useQuery({
     queryKey: ['order_list'],
-    queryFn: () => fetchOrders(accessToken),
+    queryFn: () => fetchOrders(getAccessToken()),
   });
 
   if (error) {

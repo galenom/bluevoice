@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   PaperProvider,
   MD3LightTheme as DefaultTheme,
@@ -11,6 +11,7 @@ import { GlobalContext } from '../context/Globals';
 import { CartContext } from '../context/Cart';
 import { Navbar } from '../components/navbar';
 import { AuthContext } from '../context/Auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const queryClient = new QueryClient();
 
@@ -30,10 +31,34 @@ export default function Layout() {
 
   // Auth
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const getAccessToken = () => accessToken;
+  const clearAccessToken = () => {
+    return AsyncStorage.removeItem('jwt').then(() => setAccessToken(null));
+  };
+
+  useEffect(() => {
+    (async () =>
+      accessToken && (await AsyncStorage.setItem('jwt', accessToken)))();
+  }, [accessToken]);
+
+  useEffect(() => {
+    (async () => {
+      const token = await AsyncStorage.getItem('jwt');
+
+      if (token) setAccessToken(token);
+    })();
+  }, []);
+
+  // Bad practice to do this just for timesake
+  if (!accessToken && !window.location.href.includes('login')) {
+    return null;
+  }
 
   return (
     <GlobalContext.Provider value={{ error, menu }}>
-      <AuthContext.Provider value={{ accessToken, setAccessToken }}>
+      <AuthContext.Provider
+        value={{ getAccessToken, setAccessToken, clearAccessToken }}
+      >
         <CartContext.Provider value={{ cart, total, addToCart, setTotal }}>
           <QueryClientProvider client={queryClient}>
             <PaperProvider theme={DefaultTheme}>
