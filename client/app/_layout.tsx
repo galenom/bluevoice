@@ -51,7 +51,7 @@ export default function Layout() {
   }, []);
 
   // Bad practice to do this just for timesake
-  if (!accessToken && !pathname.includes('login')) {
+  if (!accessToken && !(pathname.includes('login') || pathname.includes('/'))) {
     return null;
   }
 
