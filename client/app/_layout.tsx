@@ -4,8 +4,8 @@ import {
   MD3LightTheme as DefaultTheme,
   Portal,
   Dialog,
-  Button,
   ActivityIndicator,
+  Snackbar,
 } from 'react-native-paper';
 import { Slot } from 'expo-router';
 import {
@@ -20,7 +20,8 @@ import { SessionProvider } from '../context/Auth';
 const queryClient = new QueryClient();
 
 export default function Layout() {
-  const error = useState<Error | null>(null);
+  const [error, setError] = useState<boolean | null>(null);
+  const dismissError = () => setError(false);
 
   // Menu
   const [menuVisible, setMenuVisible] = useState(false);
@@ -34,13 +35,24 @@ export default function Layout() {
   const addToCart = (item: any) => setCartItems([...cart, item]);
 
   return (
-    <GlobalContext.Provider value={{ error, menu }}>
+    <GlobalContext.Provider value={{ error, setError, menu }}>
       <SessionProvider>
         <CartContext.Provider value={{ cart, total, addToCart, setTotal }}>
           <QueryClientProvider client={queryClient}>
             <PaperProvider theme={DefaultTheme}>
               <Slot />
               <Loading />
+              <Snackbar
+                theme={{ colors: { primary: 'red' } }}
+                visible={error !== null}
+                onDismiss={dismissError}
+                action={{
+                  label: 'Dismiss',
+                  onPress: dismissError,
+                }}
+              >
+                Sorry something went wrong
+              </Snackbar>
             </PaperProvider>
           </QueryClientProvider>
         </CartContext.Provider>
@@ -51,7 +63,7 @@ export default function Layout() {
 
 const Loading = () => {
   const isFetching = useIsFetching();
-  const isLoading = isFetching > 0;
+  const isLoading = isFetching > 0; // isFetching returns fetch count
   return (
     <Portal>
       <Dialog

@@ -1,12 +1,14 @@
-import { createContext, useContext } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
 export type GlobalContext = {
-  error: [Error | null, React.Dispatch<React.SetStateAction<Error | null>>];
+  error: boolean | null;
+  setError: Dispatch<SetStateAction<boolean | null>>;
   menu: { visible: boolean; open: () => void; close: () => void };
 };
 
 export const GlobalContext = createContext<GlobalContext>({
-  error: [null, () => {}],
+  error: null,
+  setError: () => {},
   menu: { visible: false, open: () => {}, close: () => {} },
 });
 

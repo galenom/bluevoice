@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMenu } from '../../api';
@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Avatar, Card, Text, Button } from 'react-native-paper';
 import { useAuthContext } from '../../context/Auth';
 import { currencyFormatter } from '../../utils/currency';
+import { useGlobalContext } from '../../context/Globals';
 
 const DUMMY_IMG = 'https://picsum.photos/700';
 const LeftContent = (props: any) => <Avatar.Icon {...props} icon='food' />;
@@ -37,9 +38,10 @@ export default function Menu() {
     queryKey: ['menu_list'],
     queryFn: () => fetchMenu(getAccessToken()),
   });
+  const { setError } = useGlobalContext();
 
   if (error) {
-    return <Redirect href='/error' />;
+    setError(true);
   }
 
   if (data) {

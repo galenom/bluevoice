@@ -5,12 +5,14 @@ export type AuthContext = {
   getAccessToken: () => string | null;
   setAccessToken: (accessToken: string) => void;
   clearAccessToken: () => void;
+  isLoading: boolean;
 };
 
 export const AuthContext = createContext<AuthContext>({
   getAccessToken: () => null,
   setAccessToken: () => {},
   clearAccessToken: Promise.resolve,
+  isLoading: false,
 });
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -33,7 +35,7 @@ export const SessionProvider = (props: PropsWithChildren) => {
 
   return (
     <AuthContext.Provider
-      value={{ getAccessToken, setAccessToken, clearAccessToken }}
+      value={{ getAccessToken, setAccessToken, clearAccessToken, isLoading }}
     >
       {props.children}
     </AuthContext.Provider>

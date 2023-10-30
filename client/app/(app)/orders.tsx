@@ -5,9 +5,11 @@ import { fetchOrders } from '../../api';
 import { Redirect } from 'expo-router';
 import { useAuthContext } from '../../context/Auth';
 import DataTable from '../../components/datatable';
+import { useGlobalContext } from '../../context/Globals';
 
 export default function Orders() {
   const { getAccessToken } = useAuthContext();
+  const { setError } = useGlobalContext();
 
   const { data, error } = useQuery({
     queryKey: ['order_list'],
@@ -15,7 +17,7 @@ export default function Orders() {
   });
 
   if (error) {
-    return <Redirect href='/error' />;
+    setError(true);
   }
 
   if (data) {
