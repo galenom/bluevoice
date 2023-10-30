@@ -44,7 +44,7 @@ export default function Layout() {
               <Loading />
               <Snackbar
                 theme={{ colors: { primary: 'red' } }}
-                visible={error !== null}
+                visible={false} // TODO fix this
                 onDismiss={dismissError}
                 action={{
                   label: 'Dismiss',

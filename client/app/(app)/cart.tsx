@@ -6,6 +6,7 @@ import { currencyFormatter } from '../../utils/currency';
 import { useMutation } from '@tanstack/react-query';
 import { postOrder } from '../../api';
 import { useAuthContext } from '../../context/Auth';
+import { router } from 'expo-router';
 
 export default function Cart() {
   const { cart } = useCartContext();
@@ -44,7 +45,15 @@ export default function Cart() {
       <Button
         mode='contained'
         onPress={() => {
-          mutate({ cart });
+          mutate(
+            // @ts-ignore
+            { cart },
+            {
+              onSettled() {
+                router.push('/orders');
+              },
+            }
+          );
         }}
       >
         Place order
