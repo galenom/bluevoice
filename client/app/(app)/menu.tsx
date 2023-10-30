@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMenu } from '../../api';
-import { Redirect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Avatar, Card, Text, Button } from 'react-native-paper';
 import { useAuthContext } from '../../context/Auth';
@@ -89,7 +88,7 @@ export default function Menu() {
 }
 
 const styles = StyleSheet.create({
-  flatList: { flex: 1, padding: 20 },
+  flatList: { padding: 20 },
   spacing: { width: '40%', marginTop: 25 },
   fillAndCenter: {
     justifyContent: 'center',
