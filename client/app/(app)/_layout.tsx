@@ -2,6 +2,7 @@ import { Redirect, Stack } from 'expo-router';
 import { Text } from 'react-native-paper';
 import { useSession } from '../../context/Auth';
 import { Menu } from '../../components/menu';
+import { Cart } from '../../components/cart';
 
 export default function AppLayout() {
   const { getAccessToken, isLoading } = useSession();
@@ -27,6 +28,7 @@ export default function AppLayout() {
         headerTitleStyle: { color: '#fff' },
         headerStyle: { backgroundColor: 'rgb(103, 80, 164)' },
         headerLeft: Menu,
+        headerRight: Cart,
       }}
     />
   );
