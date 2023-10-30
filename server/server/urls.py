@@ -23,6 +23,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from rest_framework.schemas import get_schema_view
 
 #router take care of generating automatically all urls for our model
 router = routers.DefaultRouter()
@@ -41,4 +42,8 @@ urlpatterns = [
     path('api/orders/', views.OrdersList.as_view()),
     path('api/order/', views.OrderCreate.as_view()),
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-]
+    path('openapi/', get_schema_view(
+        title="Restaurant API",
+        description="API for all things Restaurant",
+        version="1.0.0"
+    ), name='openapi-schema'),]
