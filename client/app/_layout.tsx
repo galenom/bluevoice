@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   PaperProvider,
   MD3LightTheme as DefaultTheme,
+  Portal,
+  Dialog,
+  Button,
   ActivityIndicator,
 } from 'react-native-paper';
-import { Slot, usePathname } from 'expo-router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { View } from 'react-native';
+import { Slot } from 'expo-router';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useIsFetching,
+} from '@tanstack/react-query';
 import { GlobalContext } from '../context/Globals';
 import { CartContext } from '../context/Cart';
-import { Navbar } from '../components/navbar';
-import { AuthContext } from '../context/Auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SessionProvider } from '../context/Auth';
 
 const queryClient = new QueryClient();
 
 export default function Layout() {
-  const pathname = usePathname();
   const error = useState<Error | null>(null);
 
   // Menu
@@ -30,63 +33,35 @@ export default function Layout() {
   const [total, setTotal] = useState(0);
   const addToCart = (item: any) => setCartItems([...cart, item]);
 
-  // Auth
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const getAccessToken = () => accessToken;
-  const clearAccessToken = () => {
-    return AsyncStorage.removeItem('jwt').then(() => setAccessToken(null));
-  };
-
-  useEffect(() => {
-    (async () =>
-      accessToken && (await AsyncStorage.setItem('jwt', accessToken)))();
-  }, [accessToken]);
-
-  useEffect(() => {
-    (async () => {
-      const token = await AsyncStorage.getItem('jwt');
-
-      if (token) setAccessToken(token);
-    })();
-  }, []);
-
-  // Bad practice to do this just for timesake
-  if (!accessToken && !(pathname.includes('login') || pathname.includes('/'))) {
-    return null;
-  }
-
   return (
     <GlobalContext.Provider value={{ error, menu }}>
-      <AuthContext.Provider
-        value={{ getAccessToken, setAccessToken, clearAccessToken }}
-      >
+      <SessionProvider>
         <CartContext.Provider value={{ cart, total, addToCart, setTotal }}>
           <QueryClientProvider client={queryClient}>
             <PaperProvider theme={DefaultTheme}>
-              <Navbar />
-              <Pages />
+              <Slot />
+              <Loading />
             </PaperProvider>
           </QueryClientProvider>
         </CartContext.Provider>
-      </AuthContext.Provider>
+      </SessionProvider>
     </GlobalContext.Provider>
   );
 }
 
-const Pages = () => {
-  const isLoading = queryClient.isFetching();
-
-  return isLoading ? (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <ActivityIndicator size='large' />
-    </View>
-  ) : (
-    <Slot />
+const Loading = () => {
+  const isFetching = useIsFetching();
+  const isLoading = isFetching > 0;
+  return (
+    <Portal>
+      <Dialog
+        visible={isLoading}
+        style={{ width: 100, height: 100, alignSelf: 'center' }}
+      >
+        <Dialog.Content>
+          <ActivityIndicator size='large' />
+        </Dialog.Content>
+      </Dialog>
+    </Portal>
   );
 };

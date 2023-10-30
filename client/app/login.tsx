@@ -45,6 +45,7 @@ export default function Login() {
         style={styles.spacing}
         secureTextEntry
         error={error}
+        onSubmitEditing={login}
       />
       <Button mode='contained' onPress={login} style={styles.spacing}>
         Log in

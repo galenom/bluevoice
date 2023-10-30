@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-import { fetchOrders } from '../api';
+import { fetchOrders } from '../../api';
 import { Redirect } from 'expo-router';
-import { useAuthContext } from '../context/Auth';
-import DataTable from '../components/datatable';
+import { useAuthContext } from '../../context/Auth';
+import DataTable from '../../components/datatable';
 
 export default function Orders() {
   const { getAccessToken } = useAuthContext();
@@ -24,5 +24,3 @@ export default function Orders() {
 
   return <View />;
 }
-
-const styles = StyleSheet.create({});
