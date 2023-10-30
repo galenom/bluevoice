@@ -37,3 +37,12 @@ export const fetchOrders = async (accessToken: string | null) => {
   });
   return data;
 };
+
+export const postOrder = async (accessToken: string | null, orders: any) => {
+  const { data } = await axios.post(`${uri}/api/order/`, orders, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return data;
+};
