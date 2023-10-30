@@ -8,11 +8,14 @@ import { Avatar, Card, Text, Button } from 'react-native-paper';
 import { useAuthContext } from '../../context/Auth';
 import { currencyFormatter } from '../../utils/currency';
 import { useGlobalContext } from '../../context/Globals';
+import { useCartContext } from '../../context/Cart';
 
 const DUMMY_IMG = 'https://picsum.photos/700';
 const LeftContent = (props: any) => <Avatar.Icon {...props} icon='food' />;
 
-const MenuItem = ({ dish, description, price, style }: any) => {
+const MenuItem = (item: any) => {
+  const { addToCart } = useCartContext();
+  const { dish, description, price, style } = item;
   return (
     <Card style={style}>
       <Card.Title
@@ -26,7 +29,7 @@ const MenuItem = ({ dish, description, price, style }: any) => {
       </Card.Content>
       <Card.Cover source={{ uri: DUMMY_IMG }} />
       <Card.Actions>
-        <Button>Add to cart</Button>
+        <Button onPress={() => addToCart(item)}>Add to cart</Button>
       </Card.Actions>
     </Card>
   );
@@ -34,6 +37,7 @@ const MenuItem = ({ dish, description, price, style }: any) => {
 
 export default function Menu() {
   const { getAccessToken } = useAuthContext();
+  const { addToCart, cart } = useCartContext();
   const { data, error } = useQuery({
     queryKey: ['menu_list'],
     queryFn: () => fetchMenu(getAccessToken()),
@@ -43,6 +47,8 @@ export default function Menu() {
   if (error) {
     setError(true);
   }
+
+  console.log('cart', cart);
 
   if (data) {
     return (
