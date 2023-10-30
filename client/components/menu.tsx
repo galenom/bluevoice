@@ -20,7 +20,6 @@ export const Menu = () => {
     >
       <RNPMenu.Item onPress={() => push('/menu')} title='Menu' />
       <RNPMenu.Item onPress={() => push('/orders')} title='Orders' />
-      <RNPMenu.Item onPress={() => push('/cart')} title='Cart' />
       <Divider />
       <RNPMenu.Item
         onPress={async () => {
