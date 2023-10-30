@@ -41,6 +41,7 @@ export default function Menu() {
   const { data, error } = useQuery({
     queryKey: ['menu_list'],
     queryFn: () => fetchMenu(getAccessToken()),
+    retry: false,
   });
   const { setError } = useGlobalContext();
 

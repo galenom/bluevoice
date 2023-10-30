@@ -14,6 +14,7 @@ export default function Orders() {
   const { data, error } = useQuery({
     queryKey: ['order_list'],
     queryFn: () => fetchOrders(getAccessToken()),
+    retry: false,
   });
 
   if (error) {
