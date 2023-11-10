@@ -10,7 +10,7 @@ import { router } from 'expo-router';
 
 export default function Cart() {
   const [cartExpanded, setCartExpanded] = useState(true);
-  const { cart } = useCartContext();
+  const { cart, clearCart } = useCartContext();
   const { getAccessToken } = useAuthContext();
   const { mutate } = useMutation({
     mutationFn: (cart) => postOrder(getAccessToken(), cart),
@@ -55,6 +55,7 @@ export default function Cart() {
             { cart },
             {
               onSettled() {
+                clearCart();
                 router.push('/orders');
               },
             }

@@ -33,11 +33,14 @@ export default function Layout() {
   const [cart, setCartItems] = useState<Array<any>>([]);
   const [total, setTotal] = useState(0);
   const addToCart = (item: any) => setCartItems([...cart, item]);
+  const clearCart = () => setCartItems([]);
 
   return (
     <GlobalContext.Provider value={{ error, setError, menu }}>
       <SessionProvider>
-        <CartContext.Provider value={{ cart, total, addToCart, setTotal }}>
+        <CartContext.Provider
+          value={{ cart, total, addToCart, setTotal, clearCart }}
+        >
           <QueryClientProvider client={queryClient}>
             <PaperProvider theme={DefaultTheme}>
               <Slot />
