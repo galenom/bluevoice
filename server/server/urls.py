@@ -21,7 +21,6 @@ from restaurant_api import views
 from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
-    TokenRefreshView,
 )
 from rest_framework.schemas import get_schema_view
 

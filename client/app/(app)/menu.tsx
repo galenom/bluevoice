@@ -12,9 +12,9 @@ import { useCartContext } from '../../context/Cart';
 const DUMMY_IMG = 'https://picsum.photos/700';
 const LeftContent = (props: any) => <Avatar.Icon {...props} icon='food' />;
 
-const MenuItem = (item: any) => {
+const MenuItem = ({ style, ...item }: any) => {
+  const { dish, description, price } = item;
   const { addToCart } = useCartContext();
-  const { dish, description, price, style } = item;
   return (
     <Card style={style}>
       <Card.Title
@@ -47,8 +47,6 @@ export default function Menu() {
   if (error) {
     setError(true);
   }
-
-  console.log('cart', cart);
 
   if (data) {
     return (

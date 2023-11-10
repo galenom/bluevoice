@@ -38,6 +38,7 @@ export const postOrder = async (accessToken: string | null, orders: any) => {
   const { data } = await axios.post(`${uri}/api/order/`, orders, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     },
   });
   return data;
