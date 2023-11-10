@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useCartContext } from '../../context/Cart';
-import { Button, List, Text } from 'react-native-paper';
+import { Button, List } from 'react-native-paper';
 import { currencyFormatter } from '../../utils/currency';
 import { useMutation } from '@tanstack/react-query';
 import { postOrder } from '../../api';
@@ -9,6 +9,7 @@ import { useAuthContext } from '../../context/Auth';
 import { router } from 'expo-router';
 
 export default function Cart() {
+  const [cartExpanded, setCartExpanded] = useState(true);
   const { cart } = useCartContext();
   const { getAccessToken } = useAuthContext();
   const { mutate } = useMutation({
@@ -32,7 +33,11 @@ export default function Cart() {
         description='Total'
         style={styles.margins}
       />
-      <List.Accordion title='Items in cart'>
+      <List.Accordion
+        title='Items in cart'
+        expanded={cartExpanded}
+        onPress={() => setCartExpanded(!cartExpanded)}
+      >
         {cart.map((item) => (
           <List.Item
             key={Math.random()}

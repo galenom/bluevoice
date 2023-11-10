@@ -37,6 +37,8 @@ export default function Login() {
         onChangeText={setEmail}
         style={styles.spacing}
         error={error}
+        keyboardType='email-address'
+        autoCapitalize='none'
       />
       <TextInput
         label='Password'
